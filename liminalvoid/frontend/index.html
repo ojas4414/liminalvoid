@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net;
+                 style-src 'self' 'unsafe-inline';
+                 font-src 'self' data:;
+                 img-src 'self' data: blob:;
+                 connect-src 'self' ws://localhost:8000 ws://127.0.0.1:8000;" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LiminalVoid</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230d0d0d'/><circle cx='50' cy='50' r='28' fill='none' stroke='%23330044' stroke-width='6'/></svg>" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    canvas { display: block; }
+
+    /* ── Intro overlay ── */
+    #overlay {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #000;
+      color: #fff;
+      z-index: 20;
+      transition: opacity 0.6s;
+    }
+    #overlay h1 {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      letter-spacing: 0.45em;
+      font-weight: 100;
+      margin-bottom: 0.5rem;
+    }
+    #overlay .sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 2.5rem;
+    }
+    #enter-btn {
+      padding: 0.75rem 3rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.7);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    #enter-btn:hover {
+      border-color: rgba(255,255,255,0.8);
+      color: #fff;
+    }
+    #overlay .hint {
+      position: absolute;
+      bottom: 2rem;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── Fade overlay for room transitions ── */
+    #fade {
+      position: fixed; inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 15;
+      transition: opacity 0.5s ease;
+    }
+
+    /* ── HUD ── */
+    #hud {
+      position: fixed;
+      bottom: 1.2rem; left: 1.2rem;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.12em;
+      z-index: 10;
+      pointer-events: none;
+      line-height: 1.8;
+    }
+
+    /* ── Crosshair ── */
+    #crosshair {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px; height: 14px;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    #crosshair::before,
+    #crosshair::after {
+      content: '';
+      position: absolute;
+      background: rgba(255,255,255,0.6);
+    }
+    #crosshair::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+    #crosshair::after  { width: 100%; height: 1px; top: 50%;  transform: translateY(-50%); }
+  </style>
+</head>
+<body>
+
+  <!-- Intro -->
+  <div id="overlay">
+    <h1>LIMINAL<span style="opacity:.3">·</span>VOID</h1>
+    <p class="sub">you should not be here</p>
+    <button id="enter-btn">ENTER</button>
+    <p class="hint">WASD — move &nbsp;|&nbsp; MOUSE — look &nbsp;|&nbsp; ESC — release cursor</p>
+  </div>
+
+  <!-- Transition fade -->
+  <div id="fade"></div>
+
+  <!-- Crosshair -->
+  <div id="crosshair"></div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div>session &nbsp;<span id="session-id">--------</span></div>
+    <div id="room-info">initialising...</div>
+    <div>ws &nbsp;<span id="ws-status">connecting</span></div>
+  </div>
+
+  <!-- Three.js via importmap (no build step required) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":          "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/":  "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="game.js"></script>
+
+</body>
+</html>

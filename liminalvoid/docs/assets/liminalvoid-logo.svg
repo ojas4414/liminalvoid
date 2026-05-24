@@ -1,0 +1,54 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="36" x2="1080" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0E10"/>
+      <stop offset="1" stop-color="#13191E"/>
+    </linearGradient>
+    <linearGradient id="portal" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F6C36B"/>
+      <stop offset="1" stop-color="#D64D2F"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="600" y1="128" x2="600" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6C36B" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#D64D2F" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="384" rx="28" fill="url(#bg)"/>
+  <rect x="18" y="18" width="1164" height="384" rx="28" stroke="#252D35" stroke-width="2"/>
+
+  <path d="M210 310L525 220" stroke="#58626B" stroke-opacity="0.75" stroke-width="2"/>
+  <path d="M210 110L525 200" stroke="#58626B" stroke-opacity="0.75" stroke-width="2"/>
+  <path d="M260 338L544 230" stroke="#39424A" stroke-width="2"/>
+  <path d="M260 82L544 190" stroke="#39424A" stroke-width="2"/>
+  <path d="M990 310L675 220" stroke="#58626B" stroke-opacity="0.75" stroke-width="2"/>
+  <path d="M990 110L675 200" stroke="#58626B" stroke-opacity="0.75" stroke-width="2"/>
+  <path d="M940 338L656 230" stroke="#39424A" stroke-width="2"/>
+  <path d="M940 82L656 190" stroke="#39424A" stroke-width="2"/>
+
+  <path d="M265 65V355" stroke="#232A31" stroke-width="4"/>
+  <path d="M935 65V355" stroke="#232A31" stroke-width="4"/>
+  <path d="M325 92V328" stroke="#1C2329" stroke-width="2"/>
+  <path d="M875 92V328" stroke="#1C2329" stroke-width="2"/>
+  <path d="M210 210H510" stroke="#283038" stroke-width="2"/>
+  <path d="M690 210H990" stroke="#283038" stroke-width="2"/>
+
+  <ellipse cx="600" cy="210" rx="120" ry="70" fill="url(#glow)" filter="url(#softGlow)"/>
+  <ellipse cx="600" cy="210" rx="94" ry="52" stroke="url(#portal)" stroke-width="10"/>
+  <ellipse cx="600" cy="210" rx="64" ry="34" fill="#060708" stroke="#F6C36B" stroke-opacity="0.55" stroke-width="2"/>
+  <circle cx="600" cy="210" r="7" fill="#F6C36B"/>
+
+  <text x="94" y="136" fill="#F4F1EA" font-family="'Segoe UI', Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="7">LIMINALVOID</text>
+  <text x="96" y="172" fill="#A0A9B2" font-family="'Segoe UI', Arial, sans-serif" font-size="18" letter-spacing="3">BEHAVIOR-DRIVEN PROCEDURAL HORROR</text>
+
+  <text x="96" y="286" fill="#D9C8AC" font-family="'Segoe UI', Arial, sans-serif" font-size="24" letter-spacing="2">player telemetry</text>
+  <text x="96" y="316" fill="#F6C36B" font-family="'Segoe UI', Arial, sans-serif" font-size="24" letter-spacing="2">predictive room generation</text>
+  <text x="96" y="346" fill="#A0A9B2" font-family="'Segoe UI', Arial, sans-serif" font-size="24" letter-spacing="2">liminal anomaly engine</text>
+</svg>
