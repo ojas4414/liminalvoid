@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+websockets
+redis
+kafka-python
+sqlalchemy
+alembic
+pydantic
+pytest
+pytest-asyncio
+httpx
+python-dotenv
+numpy
+torch
+scikit-learn
+tsfresh
