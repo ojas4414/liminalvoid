@@ -51,15 +51,15 @@ That means the map is not random in the usual sense. It is a response to how the
 
 ```mermaid
 flowchart LR
-    A[Player input<br/>WASD + mouse] --> B[Three.js client<br/>frontend/game.js]
-    B -->|every 2 seconds| C[WebSocket snapshot<br/>/ws/player]
-    C --> D[FastAPI app<br/>backend/main.py]
-    D --> E[(Redis)<br/>last 10 snapshots<br/>30 min TTL]
-    D --> F[(SQLite)<br/>session + snapshot history]
-    D --> G[[Kafka topic<br/>player_behaviour_events]]
-    E --> H[PyTorch predictor<br/>backend/predictor.py]
-    H --> I[Room generator<br/>backend/generator.py]
-    I --> J[Room JSON payload]
+    A["Player input<br/>WASD + mouse"] --> B["Three.js client<br/>frontend/game.js"]
+    B -->|every 2 seconds| C["WebSocket snapshot<br/>/ws/player"]
+    C --> D["FastAPI app<br/>backend/main.py"]
+    D --> E["Redis cache<br/>last 10 snapshots<br/>30 min TTL"]
+    D --> F["SQLite store<br/>session + snapshot history"]
+    D --> G["Kafka topic<br/>player_behaviour_events"]
+    E --> H["PyTorch predictor<br/>backend/predictor.py"]
+    H --> I["Room generator<br/>backend/generator.py"]
+    I --> J["Room JSON payload"]
     J --> B
 ```
 
@@ -93,17 +93,17 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    A[Predicted anomaly] --> B[normal]
-    A --> C[geometry]
-    A --> D[loop]
-    A --> E[physics]
-    A --> F[void]
+    A["Predicted anomaly"] --> B["normal"]
+    A --> C["geometry"]
+    A --> D["loop"]
+    A --> E["physics"]
+    A --> F["void"]
 
-    B --> B1[Subtle wrongness<br/>warm lighting<br/>safe baseline]
-    C --> C1[Compressed ceilings<br/>off-angle proportions<br/>over-repeated textures]
-    D --> D1[Repeating topology<br/>same-looking space<br/>single-exit recursion]
-    E --> E1[Heavy or floaty feeling<br/>flicker lighting<br/>spatial instability]
-    F --> F1[Dark portals<br/>vignette pressure<br/>black-hole lensing]
+    B --> B1["Subtle wrongness<br/>warm lighting<br/>safe baseline"]
+    C --> C1["Compressed ceilings<br/>off-angle proportions<br/>over-repeated textures"]
+    D --> D1["Repeating topology<br/>same-looking space<br/>single-exit recursion"]
+    E --> E1["Heavy or floaty feeling<br/>flicker lighting<br/>spatial instability"]
+    F --> F1["Dark portals<br/>vignette pressure<br/>black-hole lensing"]
 ```
 
 ## Behavioral Signals
