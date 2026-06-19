@@ -73,7 +73,7 @@ function makeCanvasTex(w, h, draw) {
 
 function wallTex(repeat) {
     const t = makeCanvasTex(256, 256, (ctx) => {
-        ctx.fillStyle = '#191614';
+        ctx.fillStyle = '#2a2520';
         ctx.fillRect(0, 0, 256, 256);
         ctx.strokeStyle = '#0e0d0c';
         ctx.lineWidth = 1.5;
@@ -95,7 +95,7 @@ function wallTex(repeat) {
 
 function floorTex(repeat) {
     const t = makeCanvasTex(256, 256, (ctx) => {
-        ctx.fillStyle = '#0e0d0b';
+        ctx.fillStyle = '#1a1815';
         ctx.fillRect(0, 0, 256, 256);
         ctx.strokeStyle = '#080706';
         ctx.lineWidth = 2;
@@ -168,14 +168,18 @@ export class Renderer {
     }
 
     _setupLights() {
-        this.ambientLight = new THREE.AmbientLight(0x111111, 0.6);
+        // NOTE: intensities are tuned for three r155+ physically-correct
+        // lighting (useLegacyLights = false, the r160 default). PointLight
+        // intensity is in candela with inverse-square falloff, so values are
+        // ~50x larger than the legacy model would need.
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
         this.scene.add(this.ambientLight);
 
-        this.mainLight = new THREE.PointLight(0xfff5e8, 1.2, 40);
+        this.mainLight = new THREE.PointLight(0xfff5e8, 30, 0);
         this.mainLight.position.set(0, 2.8, 0);
         this.scene.add(this.mainLight);
 
-        this.eerieLight = new THREE.PointLight(0x1a0028, 0.8, 25);
+        this.eerieLight = new THREE.PointLight(0x1a0028, 0, 30);
         this.eerieLight.position.set(0, 1.5, -10);
         this.scene.add(this.eerieLight);
     }
@@ -345,25 +349,27 @@ export class Renderer {
 
     _applyLighting(mode) {
         this.lightMode = mode;
+        this.eerieLight.intensity = 0;
         switch (mode) {
             case 'normal':
-                this.ambientLight.intensity = 0.45;
-                this.mainLight.intensity    = 1.2;
+                this.ambientLight.intensity = 0.8;
+                this.mainLight.intensity    = 60;
                 this.mainLight.color.set(0xfff5e0);
                 break;
             case 'dim':
-                this.ambientLight.intensity = 0.05;
-                this.mainLight.intensity    = 0.35;
+                this.ambientLight.intensity = 0.35;
+                this.mainLight.intensity    = 30;
                 this.mainLight.color.set(0xffeedd);
                 break;
             case 'flicker':
-                this.ambientLight.intensity = 0.04;
-                this.mainLight.intensity    = 1.1;
+                this.ambientLight.intensity = 0.3;
+                this.mainLight.intensity    = 60;
                 this.mainLight.color.set(0xfff8f0);
                 break;
             case 'none':
-                this.ambientLight.intensity = 0.008;
+                this.ambientLight.intensity = 0.05;
                 this.mainLight.intensity    = 0.0;
+                this.eerieLight.intensity   = 5;
                 break;
         }
     }
@@ -502,7 +508,7 @@ export class Renderer {
             if (this.flickerTimer > Math.random() * 0.25 + 0.04) {
                 this.flickerOn = !this.flickerOn;
                 this.flickerTimer = 0;
-                this.mainLight.intensity = this.flickerOn ? 0.9 + Math.random() * 0.6 : 0;
+                this.mainLight.intensity = this.flickerOn ? 40 + Math.random() * 20 : 0;
             }
         }
 
