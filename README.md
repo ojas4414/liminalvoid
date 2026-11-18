@@ -1,27 +1,23 @@
-<p align="center">
-  <img src="docs/assets/liminalvoid-logo.svg" alt="LiminalVoid logo" width="860" />
-</p>
+# LiminalVoid
 
-<p align="center">
-  <strong>A browser horror experiment where player behavior becomes the procedural generation system.</strong>
-</p>
+A first-person browser horror prototype in which the next room depends on how you move: the frontend sends movement and hesitation features over a WebSocket every 2 seconds, and a small PyTorch transformer classifies the last 10 snapshots into one of five room types.
+The FastAPI backend then generates that room (geometry, lighting, gravity, looping corridors or a void portal) and the Three.js frontend rebuilds the space.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/FastAPI-real--time%20API-009688?logo=fastapi&logoColor=white" alt="FastAPI badge" />
-  <img src="https://img.shields.io/badge/Three.js-renderer-111111?logo=threedotjs&logoColor=white" alt="Three.js badge" />
-  <img src="https://img.shields.io/badge/PyTorch-transformer-ee4c2c?logo=pytorch&logoColor=white" alt="PyTorch badge" />
-  <img src="https://img.shields.io/badge/Redis-sequence%20cache-dc382d?logo=redis&logoColor=white" alt="Redis badge" />
-  <img src="https://img.shields.io/badge/Kafka-event%20stream-231f20?logo=apachekafka&logoColor=white" alt="Kafka badge" />
-  <img src="https://img.shields.io/badge/Docker-compose-2496ed?logo=docker&logoColor=white" alt="Docker badge" />
-</p>
+## Run it
 
-## What LiminalVoid Is
+```bash
+git clone https://github.com/ojas4414/LiminalVoid.git
+cd LiminalVoid
+docker compose up --build
+```
 
-LiminalVoid is a web-based liminal horror prototype. The player walks through a first-person corridor, the client captures movement and hesitation patterns, and the backend interprets those signals with a small transformer model to decide what kind of room should come next.
+Then open `http://localhost:8000` and click `ENTER`. Manual setup without Docker is under [Running Locally](#running-locally).
 
-Instead of treating machine learning as an invisible scoring layer, this project makes the prediction legible: the model directly changes geometry, lighting, gravity, repetition, void intensity, and the emotional tone of the next space.
+## Results
 
-## Core Idea
+No measured results yet. The predictor is trained on synthetic sequences drawn from five hand-written behaviour archetypes in `backend/predictor.py`, and it has not been evaluated on real play sessions, so there is no accuracy to report.
+
+## How it works
 
 The experience loop is simple:
 
@@ -33,19 +29,6 @@ The experience loop is simple:
 6. The frontend rebuilds the space and the horror escalates.
 
 That means the map is not random in the usual sense. It is a response to how the player moves, pauses, turns back, and lingers.
-
-## Feature Highlights
-
-- Real-time first-person corridor exploration with pointer-lock controls.
-- WebSocket-driven gameplay loop with low-friction client/server sync.
-- Behavioral telemetry captured as structured `PlayerSnapshot` events.
-- Redis-backed rolling session memory for fast inference.
-- SQLite persistence for sessions and snapshots.
-- Kafka event publishing for external analytics or downstream consumers.
-- PyTorch transformer classifier that predicts one of five room states.
-- Procedural room generation for `normal`, `geometry`, `loop`, `physics`, and `void` anomalies.
-- Post-processing effects including vignette and gravitational lensing for void portals.
-- Zero frontend build step: the browser imports Three.js directly from CDN.
 
 ## System Architecture
 
@@ -251,24 +234,14 @@ uvicorn backend.main:app --reload
 
 Then visit `http://localhost:8000` and click `ENTER`.
 
-## What Makes This Project Interesting
-
-Most procedural horror games randomize rooms. LiminalVoid instead tries to read the player and answer with a new space that reflects that behavior. The horror comes from the feeling that the environment is paying attention.
-
-That gives the project a nice intersection of:
-
-- interactive fiction and spatial horror
-- real-time systems
-- behavior modeling
-- event streaming
-- procedural generation
-- shader-driven atmosphere
-
 ## Current Constraints and Next Steps
 
 - The model is trained on synthetic archetypes, not real captured playtest sessions yet.
 - Kafka is currently used as a producer target only; no consumer pipeline is included in this repo.
 - CSP and WebSocket connection settings are tuned for local development.
+- The `room_history` table is created but nothing writes to it yet.
+- There are no automated tests.
+- On a Windows console that is not UTF-8, the first prediction crashes: `train()` prints a `→` character the console cannot encode. Set `PYTHONIOENCODING=utf-8` until that print is changed.
 - The room system is already expressive, but it can grow into more biome variation, audio cues, and persistent narrative state.
 
 ## Suggested Roadmap
@@ -278,15 +251,3 @@ That gives the project a nice intersection of:
 3. Persist full room history and use it for long-form narrative escalation.
 4. Introduce sound design, ambient events, and reactive entity behavior.
 5. Add replay and session visualization tools for debugging the ML loop.
-
-## Repo Snapshot
-
-LiminalVoid is already compelling as a prototype because all the major pieces are present in one codebase:
-
-- a playable 3D frontend
-- a real-time FastAPI backend
-- a streaming/cache/storage layer
-- a learned behavior-to-space mapping
-- a consistent liminal horror aesthetic
-
-If you want a README that presents the project like a portfolio piece, a hackathon submission, or a research-style prototype write-up, this structure is a strong base for any of those directions.
