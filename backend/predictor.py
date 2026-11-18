@@ -18,7 +18,7 @@ N_HEADS    = 5
 D_MODEL    = 60    
 THRESHOLD  = 0.5
 N_CLASSES  = 5
-anamoly=["normal", "geometry", "loop", "physics", "void"]
+anomaly=["normal", "geometry", "loop", "physics", "void"]
 
 
 
@@ -27,8 +27,8 @@ ARCHETYPES = {
         velocity          =(0.7, 0.1),
         direction_change  =(1,   0.5),
         dwell_time        =(2.0, 0.5),
-        anamoly           =(0,   0.1),
-        anamoly_visibility=(0,   0.1),
+        anomaly           =(0,   0.1),
+        anomaly_visibility=(0,   0.1),
         backtrack         =(0,   0.2),
         wall_closer       =(0,   0.1),
         pause             =(0,   0.2),
@@ -38,8 +38,8 @@ ARCHETYPES = {
         velocity          =(0.3, 0.1),
         direction_change  =(1,   0.5),
         dwell_time        =(6.0, 1.0),
-        anamoly           =(1,   0.2),
-        anamoly_visibility=(1,   0.3),
+        anomaly           =(1,   0.2),
+        anomaly_visibility=(1,   0.3),
         backtrack         =(2,   0.5),
         wall_closer       =(1,   0.2),
         pause             =(1,   0.3),
@@ -49,8 +49,8 @@ ARCHETYPES = {
         velocity          =(0.8, 0.15),
         direction_change  =(2,   0.5),
         dwell_time        =(4.0, 1.0),
-        anamoly           =(0,   0.2),
-        anamoly_visibility=(1,   0.3),
+        anomaly           =(0,   0.2),
+        anomaly_visibility=(1,   0.3),
         backtrack         =(4,   0.5),
         wall_closer       =(0,   0.1),
         pause             =(1,   0.3),
@@ -60,8 +60,8 @@ ARCHETYPES = {
         velocity          =(0.1, 0.05),
         direction_change  =(6,   1.0),
         dwell_time        =(9.0, 2.0),
-        anamoly           =(1,   0.1),
-        anamoly_visibility=(1,   0.2),
+        anomaly           =(1,   0.1),
+        anomaly_visibility=(1,   0.2),
         backtrack         =(3,   0.5),
         wall_closer       =(1,   0.3),
         pause             =(2,   0.5),
@@ -71,8 +71,8 @@ ARCHETYPES = {
         velocity          =(0.05, 0.02),
         direction_change  =(0,    0.2),
         dwell_time        =(15.0, 3.0),
-        anamoly           =(1,    0.1),
-        anamoly_visibility=(1,    0.1),
+        anomaly           =(1,    0.1),
+        anomaly_visibility=(1,    0.1),
         backtrack         =(0,    0.1),
         wall_closer       =(1,    0.1),
         pause             =(3,    0.5),
@@ -81,7 +81,7 @@ ARCHETYPES = {
 }
 
 FEATURE_KEYS = ["velocity", "direction_change", "dwell_time",
-                "anamoly", "anamoly_visibility",
+                "anomaly", "anomaly_visibility",
                 "backtrack", "wall_closer", "pause"]
 
 def generate_seq(label:int):
@@ -188,7 +188,7 @@ def predict(session_id):
         return {"anomaly_type": "normal", "intensity": 0.0}
     snaps= json.loads(data)
     FEATURE_KEYS = ["velocity", "direction_change", "dwell_time",
-                    "anamoly", "anamoly_visibility",
+                    "anomaly", "anomaly_visibility",
                     "backtrack", "wall_closer", "pause"]
     
     seq = [[s.get(k, 0) for k in FEATURE_KEYS] for s in snaps]
@@ -210,7 +210,7 @@ def predict(session_id):
     intensity    = intensity_pred.item()
 
     return {
-        "anomaly_type": anamoly[label],
+        "anomaly_type": anomaly[label],
         "intensity":    round(intensity, 3)
     }
 

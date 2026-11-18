@@ -6,8 +6,8 @@ class PlayerSnapshot(BaseModel):
     velocity: float
     direction_change: int
     dwell_time: float
-    anamoly: int
-    anamoly_visibility: int
+    anomaly: int
+    anomaly_visibility: int
     backtrack: int
     wall_closer: int
     pause: int

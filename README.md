@@ -115,15 +115,15 @@ The model currently consumes an 8-feature sequence with a maximum window of 10 r
 | `velocity` | How much the player moved during the sampling window |
 | `direction_change` | Sudden changes in movement direction or large camera yaw shifts |
 | `dwell_time` | Time spent standing still or lingering |
-| `anamoly` | Whether the player was close to an anomaly |
-| `anamoly_visibility` | Whether the anomaly was visible in the camera frustum |
+| `anomaly` | Whether the player was close to an anomaly |
+| `anomaly_visibility` | Whether the anomaly was visible in the camera frustum |
 | `backtrack` | Whether the player reversed toward an older path |
 | `wall_closer` | Whether the player stayed near corridor boundaries |
 | `pause` | Count of movement stops or hesitation moments |
 
 Notes:
 
-- The field names intentionally match the current codebase, including the existing `anamoly` spelling in the payload schema.
+- The field names match the payload schema in `backend/models.py`.
 - If no model file exists, the backend trains one on first prediction and saves `spatial_transformer.pt`.
 
 ## Project Layout

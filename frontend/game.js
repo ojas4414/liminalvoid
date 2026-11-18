@@ -97,8 +97,8 @@ function wsSend(nearAnomaly, anomalyVisible, nearWall) {
         velocity:           +velocity.toFixed(3),
         direction_change:   dirChanges,
         dwell_time:         +dwellTime.toFixed(2),
-        anamoly:            nearAnomaly    ? 1 : 0,
-        anamoly_visibility: anomalyVisible ? 1 : 0,
+        anomaly:            nearAnomaly    ? 1 : 0,
+        anomaly_visibility: anomalyVisible ? 1 : 0,
         backtrack:          backtrackCount,
         wall_closer:        nearWall       ? 1 : 0,
         pause:              pauseCount
