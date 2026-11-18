@@ -34,13 +34,13 @@ def init_db():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS room_history(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            room_history_id INTEGER,
+            session_id TEXT,
             head_velocity REAL,
             head_exploration REAL,
             head_fear REAL,
             head_longrange REAL,
             head_void REAL,
-            FOREIGN KEY (room_history_id) REFERENCES room_history(id)
+            FOREIGN KEY (session_id) REFERENCES sessions(id)
         )
     """)
 
